@@ -2373,7 +2373,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_name$created$created = {
   name: "all_product",
   created: function created() {
@@ -2389,6 +2388,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   this.allproduct();
   this.allcategory();
   this.allcustomer();
+  this.vats();
   Reload.$on("AfterAdd", function () {
     _this.showCartItem();
   });
@@ -2399,7 +2399,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     categories: "",
     getproducts: [],
     customers: "",
-    carts: []
+    carts: [],
+    vat: ''
   };
 }), _defineProperty(_name$created$created, "methods", {
   allproduct: function allproduct() {
@@ -2443,10 +2444,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     });
   },
   addToCart: function addToCart(id) {
-    console.log(id);
     axios.get("/api/cart/" + id).then(function (_ref5) {
       var data = _ref5.data;
-      console.log(data);
       Reload.$emit("AfterAdd");
     })["catch"](function (err) {
       return console.log(err.data);
@@ -2457,50 +2456,73 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     axios.get("/api/cart/").then(function (_ref6) {
       var data = _ref6.data;
-      return _this6.carts = data;
+      _this6.carts = data;
     })["catch"](function (err) {
       return console.log(err.data);
     });
   },
   removeItem: function removeItem(id) {
-    axios["delete"]("/api/cart/" + id).then(function (_ref7) {
-      var data = _ref7.data;
+    axios["delete"]("/api/cart/" + id).then(function () {
       Reload.$emit("AfterAdd");
       Notification["delete"]();
-      console.log(data);
     })["catch"](function (err) {
       return console.log(err.data);
     });
   },
   increment: function increment(id) {
     console.log(id);
-    axios.get("/api/cart/increment/" + id).then(function (_ref8) {
-      var data = _ref8.data;
+    axios.get("/api/cart/increment/" + id).then(function (_ref7) {
+      var data = _ref7.data;
       Reload.$emit("AfterAdd");
-      console.log(data);
     })["catch"]();
   },
   decrement: function decrement(id) {
-    axios.get("/api/cart/decrement/" + id).then(function (_ref9) {
-      var data = _ref9.data;
+    axios.get("/api/cart/decrement/" + id).then(function () {
       Reload.$emit("AfterAdd");
-      console.log(data);
     })["catch"]();
+  },
+  vats: function vats() {
+    var _this7 = this;
+
+    axios.get('/api/vat/').then(function (_ref8) {
+      var data = _ref8.data;
+      _this7.vat = data.vat;
+    })["catch"](function (err) {
+      return console.warn(err.data + " something went wrong!!");
+    });
   }
 }), _defineProperty(_name$created$created, "computed", {
   filterSearch: function filterSearch() {
-    var _this7 = this;
+    var _this8 = this;
 
     return this.products.filter(function (product) {
-      return product.product_name.match(_this7.searchTerm);
+      return product.product_name.match(_this8.searchTerm);
     });
   },
   getFilterSearch: function getFilterSearch() {
-    var _this8 = this;
+    var _this9 = this;
 
     return this.getproducts.filter(function (getproduct) {
-      return getproduct.product_name.match(_this8.searchTerm);
+      return getproduct.product_name.match(_this9.searchTerm);
     });
+  },
+  qty: function qty() {
+    var sum = 0;
+
+    for (var i = 0; i < this.carts.length; i++) {
+      sum += parseInt(this.carts[i].product_quantity);
+    }
+
+    return sum;
+  },
+  subtotal: function subtotal() {
+    var sum = 0;
+
+    for (var i = 0; i < this.carts.length; i++) {
+      sum += parseInt(this.carts[i].sub_total);
+    }
+
+    return sum;
   }
 }), _name$created$created);
 
@@ -2658,12 +2680,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       reader.onload = function (event) {
         _this2.form.image = event.target.result;
-        console.log(event.target.result);
+        console.log(_this2.form.image);
       };
 
       console.log(event);
       console.log(file);
-      console.log(event.target.files[0]);
       reader.readAsDataURL(file);
     }
   }
@@ -49221,7 +49242,64 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-footer" }, [
-                _vm._m(3),
+                _c("ul", { staticClass: "list-group" }, [
+                  _c("li", {
+                    staticClass:
+                      "\n                    list-group-item\n                    d-flex\n                    justify-content-between\n                    align-items-center\n                  "
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    {
+                      staticClass:
+                        "\n                    list-group-item\n                    d-flex\n                    justify-content-between\n                    align-items-center\n                  "
+                    },
+                    [
+                      _vm._v("\n                  Total Quantity: "),
+                      _c("strong", [_vm._v(_vm._s(_vm.qty))])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    {
+                      staticClass:
+                        "\n                    list-group-item\n                    d-flex\n                    justify-content-between\n                    align-items-center\n                  "
+                    },
+                    [
+                      _vm._v("\n                  Sub Total : "),
+                      _c("strong", [_vm._v(_vm._s(_vm.subtotal))])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    {
+                      staticClass:
+                        "\n                    list-group-item\n                    d-flex\n                    justify-content-between\n                    align-items-center\n                  "
+                    },
+                    [
+                      _vm._v("\n                  Vat : "),
+                      _c("strong", [_vm._v(_vm._s(_vm.vat) + "%")])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    {
+                      staticClass:
+                        "\n                    list-group-item\n                    d-flex\n                    justify-content-between\n                    align-items-center\n                  "
+                    },
+                    [
+                      _vm._v("\n                  Total Amount : "),
+                      _c("strong", [
+                        _vm._v(
+                          _vm._s(_vm.subtotal + (_vm.subtotal * _vm.vat) / 100)
+                        )
+                      ])
+                    ]
+                  )
+                ]),
                 _vm._v(" "),
                 _c("br"),
                 _vm._v(" "),
@@ -49232,32 +49310,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.customer_id,
-                          expression: "customer_id"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.customer_id = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        }
-                      }
-                    },
+                    { staticClass: "form-control" },
                     _vm._l(_vm.customers, function(customer) {
                       return _c(
                         "option",
@@ -49292,7 +49345,7 @@ var render = function() {
                     _vm._v("Payment Method")
                   ]),
                   _vm._v(" "),
-                  _vm._m(4),
+                  _vm._m(3),
                   _c("br"),
                   _vm._v(" "),
                   _c(
@@ -49358,7 +49411,7 @@ var render = function() {
                     attrs: { id: "pills-tab", role: "tablist" }
                   },
                   [
-                    _vm._m(5),
+                    _vm._m(4),
                     _vm._v(" "),
                     _vm._l(_vm.categories, function(category) {
                       return _c(
@@ -49683,66 +49736,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Action")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "list-group" }, [
-      _c(
-        "li",
-        {
-          staticClass:
-            "\n                    list-group-item\n                    d-flex\n                    justify-content-between\n                    align-items-center\n                  "
-        },
-        [_vm._v("\n                  Quantity : "), _c("strong", [_vm._v("2")])]
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        {
-          staticClass:
-            "\n                    list-group-item\n                    d-flex\n                    justify-content-between\n                    align-items-center\n                  "
-        },
-        [
-          _vm._v("\n                  Total Quantity: "),
-          _c("strong", [_vm._v("2")])
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        {
-          staticClass:
-            "\n                    list-group-item\n                    d-flex\n                    justify-content-between\n                    align-items-center\n                  "
-        },
-        [
-          _vm._v("\n                  Sub Total : "),
-          _c("strong", [_vm._v("400")])
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        {
-          staticClass:
-            "\n                    list-group-item\n                    d-flex\n                    justify-content-between\n                    align-items-center\n                  "
-        },
-        [_vm._v("\n                  Vat : "), _c("strong", [_vm._v("5%")])]
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        {
-          staticClass:
-            "\n                    list-group-item\n                    d-flex\n                    justify-content-between\n                    align-items-center\n                  "
-        },
-        [
-          _vm._v("\n                  Total Amount : "),
-          _c("strong", [_vm._v("400")])
-        ]
-      )
     ])
   },
   function() {

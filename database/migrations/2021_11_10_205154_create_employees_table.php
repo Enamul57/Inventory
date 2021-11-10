@@ -24,8 +24,7 @@ class CreateEmployeesTable extends Migration
             $table->string('joining_date');
             $table->string('photo')->nullable();
             $table->timestamps();
-        });
-    }
+        });    }
 
     /**
      * Reverse the migrations.

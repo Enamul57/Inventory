@@ -56,7 +56,7 @@ class ProductController extends Controller
 
         ]);
 
-        $image = $request->photo;// abc/jpg;dfdsfsa
+        $image = $request->image;// abc/jpg;dfdsfsa
         if($image){
             $index_position = strpos($image,';');
             $substr = substr($image,0,$index_position);
@@ -92,6 +92,7 @@ class ProductController extends Controller
             $product->buying_date = $request->buying_date;
             $product->product_quantity = $request->product_quantity;
             $product->save();
+            return false;
 
 
         }

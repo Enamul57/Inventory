@@ -82,7 +82,6 @@
                       align-items-center
                     "
                   >
-                    Quantity : <strong>2</strong>
                   </li>
                   <li
                     class="
@@ -92,7 +91,7 @@
                       align-items-center
                     "
                   >
-                    Total Quantity: <strong>2</strong>
+                    Total Quantity: <strong>{{qty}}</strong>
                   </li>
                   <li
                     class="
@@ -102,7 +101,17 @@
                       align-items-center
                     "
                   >
-                    Sub Total : <strong>400</strong>
+                    Sub Total : <strong>{{subtotal}}</strong>
+                  </li>
+                  <li
+                    class="
+                      list-group-item
+                      d-flex
+                      justify-content-between
+                      align-items-center
+                    " 
+                  >
+                    Vat : <strong>{{vat}}%</strong>
                   </li>
                   <li
                     class="
@@ -112,23 +121,13 @@
                       align-items-center
                     "
                   >
-                    Vat : <strong>5%</strong>
-                  </li>
-                  <li
-                    class="
-                      list-group-item
-                      d-flex
-                      justify-content-between
-                      align-items-center
-                    "
-                  >
-                    Total Amount : <strong>400</strong>
+                    Total Amount : <strong>{{subtotal  + (subtotal * vat)/100}}</strong>
                   </li>
                 </ul>
                 <br />
                 <form action="">
                   <label for="">Customer name</label>
-                  <select class="form-control" v-model="customer_id">
+                  <select class="form-control" >
                     <option
                       :value="customer.id"
                       v-for="customer in customers"
@@ -138,9 +137,9 @@
                     </option>
                   </select>
                   <label for="">Pay</label>
-                  <input type="text" class="form-control" id="" />
+                  <input type="text" class="form-control" id=""/>
                   <label for="">Due</label>
-                  <input type="text" class="form-control" id="" />
+                  <input type="text" class="form-control" id=""/>
                   <label for="">Payment Method</label>
                   <select class="form-control">
                     <option value="handCash">Hand Cash</option>
@@ -315,6 +314,7 @@ export default {
     this.allproduct();
     this.allcategory();
     this.allcustomer();
+    this.vats();
     Reload.$on("AfterAdd", () => {
       this.showCartItem();
     });
@@ -327,6 +327,7 @@ export default {
       getproducts: [],
       customers: "",
       carts: [],
+      vat: '',
     };
   },
   methods: {
@@ -361,11 +362,10 @@ export default {
         .catch((err) => console.log(err.data));
     },
     addToCart(id) {
-      console.log(id);
       axios
         .get("/api/cart/" + id)
         .then(({ data }) => {
-          console.log(data);
+         
           Reload.$emit("AfterAdd");
         })
         .catch((err) => console.log(err.data));
@@ -373,16 +373,17 @@ export default {
     showCartItem() {
       axios
         .get("/api/cart/")
-        .then(({ data }) => (this.carts = data))
+        .then(({ data }) => {this.carts = data;})
+
         .catch((err) => console.log(err.data));
     },
     removeItem(id) {
       axios
         .delete("/api/cart/" + id)
-        .then(({ data }) => {
+        .then(() => {
           Reload.$emit("AfterAdd");
           Notification.delete();
-          console.log(data);
+         
         })
         .catch((err) => console.log(err.data));
     },
@@ -392,19 +393,26 @@ export default {
         .get("/api/cart/increment/" + id)
         .then(({ data }) => {
           Reload.$emit("AfterAdd");
-          console.log(data);
+          
         })
         .catch();
     },
     decrement(id) {
       axios
         .get("/api/cart/decrement/" + id)
-        .then(({ data }) => {
+        .then(() => {
           Reload.$emit("AfterAdd");
-          console.log(data);
+          
         })
         .catch();
     },
+    vats(){
+      axios.get('/api/vat/').then(({data})=>{
+          this.vat = data.vat;
+        }).catch((err) => console.warn(err.data+" something went wrong!!"))
+    },
+  
+
   },
 
   computed: {
@@ -418,6 +426,21 @@ export default {
         return getproduct.product_name.match(this.searchTerm);
       });
     },
+    qty(){
+      let sum = 0;
+      for(let i = 0; i< this.carts.length; i++){
+        sum += parseInt(this.carts[i].product_quantity);
+      }
+      return sum;
+    },
+    subtotal(){
+      let sum = 0;
+      for(let i =0;i < this.carts.length;i++){
+        sum += parseInt(this.carts[i].sub_total);
+      }
+      return sum;
+    }
+    
   },
 };
 </script>

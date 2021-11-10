@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\ButtonController;
-
+use App\Http\Controllers\Api\VatController;
     Route::apiResource('/employee',App\Http\Controllers\Api\EmployeeController::class);
     Route::apiResource('/supplier',App\Http\Controllers\Api\SupplierController::class);
     Route::apiResource('/category',App\Http\Controllers\Api\CategoryController::class);
@@ -15,6 +15,9 @@ use App\Http\Controllers\Api\ButtonController;
     Route::apiResource('/pos',App\Http\Controllers\Api\PosController::class);
     Route::apiResource('/customer',App\Http\Controllers\Api\CustomerController::class);
     Route::apiResource('/cart',App\Http\Controllers\Api\CartController::class);
+    Route::apiResource('/vat', App\Http\Controllers\Api\VatController::class);
+
+
     // Route::get('/cart','Api\ButtonController@index');
     // Route::get('/cart/{id}','Api\ButtonController@show');
     // Route::delete('/cart/{id}','Api\ButtonController@destroy');

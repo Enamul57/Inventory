@@ -134,11 +134,10 @@ export default {
                 let reader = new FileReader();
                 reader.onload = event => {
                     this.form.image = event.target.result;
-                    console.log(event.target.result);
+                    console.log(this.form.image);
                 }
                 console.log(event);
                 console.log(file);
-                console.log(event.target.files[0]);
                 reader.readAsDataURL(file);
            
         },
