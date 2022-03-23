@@ -36,7 +36,7 @@
                         <li><a class="dropdown-item" href="">Settings</a></li>
                         <li><a class="dropdown-item" href="">Activity Log</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="" ><router-link to='logout'>Logout</router-link></a></li>
+                        <li><a class="dropdown-item" href="" ><router-link :to="{name:'logout'}">Logout</router-link></a></li>
                     </ul>
                 </li>
             </ul>
@@ -100,6 +100,16 @@
                                 <router-link :to="{name:'create_product'}" class='nav-link collapsed'  >Add Product</router-link>
                                 <router-link :to="{name:'all_product'}" class='nav-link collapsed' >All Product</router-link>
                             </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#customerPages" aria-expanded="false" aria-controls="collapsePages">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Customer
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="customerPages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                                <router-link :to="{name:'add_customer'}" class='nav-link collapsed'  >Add Customer</router-link>
+                                <router-link :to="{name:'all_customer'}" class='nav-link collapsed' >All Customer</router-link>
+                            </div>
+                            
                             <div class="sb-sidenav-menu-heading">Addons</div>
                             <a class="nav-link" href="charts.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>

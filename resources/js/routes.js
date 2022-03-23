@@ -22,7 +22,9 @@ let CreateProduct = require('./components/Products/create.vue').default;
 let EditProduct = require('./components/Products/edit.vue').default;
 let PointOfSale = require('./components/POS/pos.vue').default;
 
-
+import AllCustomer from './components/Customer/index.vue';
+import EditCustomer from './components/Customer/edit.vue';
+import AddCustomer from './components/Customer/add.vue';
 export const routes = [
     {path:'/',component:login,name:'login'},
     {path:'/register',component:register,name:'register'},
@@ -47,4 +49,8 @@ export const routes = [
     {path:'/edit_product/:id',component:EditProduct,name:'edit_product'},
     {path:'/pos',component:PointOfSale,name:'pos'},
     
+
+    {path:'/all_customer',component:AllCustomer,name:'all_customer'},
+    {path:'/edit_customer/:id',component:EditCustomer,name:'edit_customer'},
+    {path:'/add_customer',component:AddCustomer,name:'add_customer'},
 ];

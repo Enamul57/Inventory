@@ -58,7 +58,7 @@
                                                      <input type="file" class="form-control-file" id="" @change='onFileSelected'>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <img :src="form.photo" alt="" style='width:40px;height:40px;'>
+                                                    <img :src="form.photo" alt="" style='width:70px;height:90px;'>
                                                 </div>
                                                 </div>
                                                     

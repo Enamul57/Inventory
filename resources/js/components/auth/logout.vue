@@ -11,6 +11,7 @@
 export default {
     name:'logout',
     created(){
+        
        localStorage.removeItem('token');
        localStorage.removeItem('user');
         Toast.fire({

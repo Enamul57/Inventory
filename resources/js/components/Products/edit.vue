@@ -73,7 +73,9 @@
                                                     <input type="file" class="form-control-file" id="exampleFormControlFile1" @change='onFileSelected'>
                                                 </div>
                                                 <div class="form-group col-md-4">
-                                                    <td> <img :src="form.image" alt="" style='width:40px;height:40px'></td>
+                                                    <td> 
+                                                        <img v-if='clickOnChoose' :src="newphoto" alt="">
+                                                 <img v-else :src="'/'+form.photo"  style='width:90px;height:90px'></td>
                                                 </div>
                                                 </div>
                                             </div>
@@ -111,8 +113,11 @@ export default {
             errors:{
 
             },
+
             categories:{},
             suppliers:{},
+            clickOnChoose:false,
+            newphoto:'',
         }
     },
     created(){
@@ -124,10 +129,12 @@ export default {
     methods:{
 
         onFileSelected(event){
+            this.clickOnChoose = true;
             let file = event.target.files[0];
             let reader = new FileReader();
             reader.onload = (event)=>{
                 this.form.newphoto = event.target.result;
+                this.newphoto = this.form.newphoto;
                 console.log(this.form.newphoto);
             };
             reader.readAsDataURL(file);
