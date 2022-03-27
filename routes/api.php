@@ -18,9 +18,7 @@ use App\Http\Controllers\Api\VatController;
     Route::apiResource('/vat', App\Http\Controllers\Api\VatController::class);
 
 
-    // Route::get('/cart','Api\ButtonController@index');
-    // Route::get('/cart/{id}','Api\ButtonController@show');
-    // Route::delete('/cart/{id}','Api\ButtonController@destroy');
+    
 
      Route::get('/cart/increment/{id}',[ButtonController::class,'increment']);
      Route::get('/cart/decrement/{id}',[ButtonController::class,'decrement']);

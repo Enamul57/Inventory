@@ -66,7 +66,7 @@ class ButtonController extends Controller
     }
     public function decrement($id){
         $cart = DB::table('pos')->where('product_id',$id);
-        
+            
             DB::table('pos')->where('product_id',$id)->decrement('product_quantity');
             $productId = DB::table('pos')->where('product_id',$id)->first();
             $productsTotal = $productId->product_quantity * $productId->product_price;

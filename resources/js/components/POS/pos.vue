@@ -336,6 +336,7 @@ export default {
         .get("/api/products")
         .then(({ data }) => {
           this.products = data;
+          console.log(this.products)
         })
         .catch((err) => console.log(err.data));
     },
@@ -365,8 +366,12 @@ export default {
       axios
         .get("/api/cart/" + id)
         .then(({ data }) => {
-         
+       
+         console.log(data);
           Reload.$emit("AfterAdd");
+         
+          
+        
         })
         .catch((err) => console.log(err.data));
     },

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -57,6 +56,7 @@ class CartController extends Controller
             if($product){
                 $productTotal = $product->product_quantity * $product->product_price;
             DB::table('pos')->where('product_id',$id)->update(['sub_total'=>$productTotal]);
+            
             }
         }elseif(!$pos){
             $cart = DB::table('products')->where('id',$id)->first();
@@ -67,7 +67,7 @@ class CartController extends Controller
             $data['product_price'] = $cart->selling_price;
             $data['sub_total'] = $cart->selling_price;
             DB::table('pos')->insert($data);
-            
+            return response()->json($data);
         }else{
             return 'nothing';
         }

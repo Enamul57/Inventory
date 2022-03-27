@@ -2853,6 +2853,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     axios.get("/api/products").then(function (_ref) {
       var data = _ref.data;
       _this2.products = data;
+      console.log(_this2.products);
     })["catch"](function (err) {
       return console.log(err.data);
     });
@@ -2890,6 +2891,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   addToCart: function addToCart(id) {
     axios.get("/api/cart/" + id).then(function (_ref5) {
       var data = _ref5.data;
+      console.log(data);
       Reload.$emit("AfterAdd");
     })["catch"](function (err) {
       return console.log(err.data);
@@ -54255,7 +54257,10 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-6" }, [
                         _vm.clickOnChoose
-                          ? _c("img", { attrs: { src: _vm.newphoto, alt: "" } })
+                          ? _c("img", {
+                              staticStyle: { width: "90px", height: "90px" },
+                              attrs: { src: _vm.newphoto, alt: "" }
+                            })
                           : _c("img", {
                               staticStyle: { width: "90px", height: "90px" },
                               attrs: { src: "/" + _vm.form.photo }

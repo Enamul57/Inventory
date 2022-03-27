@@ -58,7 +58,7 @@
                                                      <input type="file" class="form-control-file" id="" @change='onFileSelected'>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <img v-if='clickOnChoose' :src="newphoto" alt="">
+                                                    <img v-if='clickOnChoose' :src="newphoto" alt="" style='width:90px;height:90px'>
                                                     <img v-else :src="'/'+form.photo"  style='width:90px;height:90px'>
                                                     
                                                 </div>
