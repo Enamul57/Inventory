@@ -8,6 +8,9 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\ButtonController;
 use App\Http\Controllers\Api\VatController;
+use App\Http\Controllers\Api\ExpenseController;
+use App\Http\Controllers\Api\SalaryController;
+
     Route::apiResource('/employee',App\Http\Controllers\Api\EmployeeController::class);
     Route::apiResource('/supplier',App\Http\Controllers\Api\SupplierController::class);
     Route::apiResource('/category',App\Http\Controllers\Api\CategoryController::class);
@@ -16,8 +19,8 @@ use App\Http\Controllers\Api\VatController;
     Route::apiResource('/customer',App\Http\Controllers\Api\CustomerController::class);
     Route::apiResource('/cart',App\Http\Controllers\Api\CartController::class);
     Route::apiResource('/vat', App\Http\Controllers\Api\VatController::class);
-
-
+    Route::apiResource('/expense',App\Http\Controllers\Api\ExpenseController::class);
+    Route::apiResource('/empSalary',App\Http\Controllers\Api\SalaryController::class);
     
 
      Route::get('/cart/increment/{id}',[ButtonController::class,'increment']);

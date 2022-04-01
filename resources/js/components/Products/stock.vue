@@ -1,5 +1,5 @@
 <template>
-    <div id="products">
+    <div id="stock">
          <div class="container">
                 <div class="row ">
                    <div class="col-md-12">
@@ -20,33 +20,28 @@
                             <table class="table">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th scope="col">#</th>
                                         <th scope="col">Product Name</th>
                                         <th scope='col'>Photo</th>
-                                        <th scope="col">Product Code</th>
-                                        <th scope='col'>Product Root</th>
-                                        <th>Quantity</th>
+                                        <th scope="col">Code</th>
+                                        <th scope='col'>Category</th>
+                                        <th scop='col'>Stock</th>
                                         <th scope="col">Buying Price</th>
-                                        <th scope="col">Selling Price</th>
-                                        <th scope='col'>Supplier ID</th>
-                                        <th scope="col">Buying Date</th>
+                                        <th scope='col'>Status</th>
                                         <th scope='col'>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="(product) in filterSearch" :key='product.id'>
-                                        <td>{{(product.id)}}</td>
                                         <td>{{product.product_name}}</td>
                                         <td><img :src="product.image" alt="" id='imgId'></td>
                                         <td>{{product.product_code}}</td>
-                                        <td>{{product.root}}</td>
+                                        <td>{{product.product_category}}</td>
                                         <td>{{product.product_quantity}}</td>
                                         <td>{{product.buying_price}}</td>
-                                        <td>{{product.selling_price}}</td>
-                                        <td>{{product.supplier_id}}</td>
-                                        <td>{{product.buying_date}}</td>
+                                        <td v-if="product.product_quantity>=1" class='text-success'>Available</td>
+                                        <td v-else class='text-danger'>Stock Out</td>
                                         <td style='color:white'><router-link class='btn btn-md btn-primary' style='margin-right:5px' :to="{name:'edit_product' , params:{ id: product.id }}">Edit</router-link>
-                                        <a class='btn btn-md btn-danger' @click="deleteProduct(product.id)">Delete</a></td>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -59,7 +54,7 @@
 </template>
 <script>
 export default {
-    name:'all_product',
+    name:'stock',
     created(){
         if(!User.hasLoggedIn()){
             return this.$router.push({name:"/"});

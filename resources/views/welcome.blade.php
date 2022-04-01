@@ -55,7 +55,10 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 <router-link :to="{name:'pos'}" style='text-decoration : none;color:white'>POS</router-link>
                             </a>
-
+                            <a class="nav-link" >
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                <router-link :to="{name:'stock'}" style='text-decoration : none;color:white'> Stock</router-link>
+                            </a>
                             
                             <div class="sb-sidenav-menu-heading">Interface</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
@@ -67,6 +70,28 @@
                                 <nav class="sb-sidenav-menu-nested nav">
                                 <router-link :to="{name : 'create_employee'}" class='nav-link collapsed'  >Add Employer</router-link>
                                 <router-link :to="{name : 'all_employee'}" class='nav-link collapsed' >All Employer</router-link>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayoutsSal" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                 Expense
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayoutsSal" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                <router-link :to="{name : 'add_expense'}" class='nav-link collapsed'  >Add Expense</router-link>
+                                <router-link :to="{name : 'all_expense'}" class='nav-link collapsed' >All Expense</router-link>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayoutsSalary" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                 Salary
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayoutsSalary" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                <router-link :to="{name : 'pay_salary'}" class='nav-link collapsed'  >Pay Salary</router-link>
+                                <router-link :to="{name : 'given_salary'}" class='nav-link collapsed' >Given Salary</router-link>
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts">
@@ -100,6 +125,7 @@
                                 <router-link :to="{name:'create_product'}" class='nav-link collapsed'  >Add Product</router-link>
                                 <router-link :to="{name:'all_product'}" class='nav-link collapsed' >All Product</router-link>
                             </div>
+                           
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#customerPages" aria-expanded="false" aria-controls="collapsePages">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                                 Customer

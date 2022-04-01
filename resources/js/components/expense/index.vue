@@ -1,14 +1,14 @@
 <template>
-    <div id="all_employee">
+    <div id="all_expense">
          <div class="container">
                 <div class="row ">
                    <div class="col-md-12">
                        <div class="header">
-                           <h3>All Employee</h3>
+                           <h3>All Expense</h3>
                        </div>
                         <div>
-                            <div class='add_employee' style='margin:10px 40px 15px 0px;'>
-                                <router-link to='create_employee' class='btn btn-primary'>Add Employee</router-link>
+                            <div class='add_expense' style='margin:10px 40px 15px 0px;'>
+                                <router-link :to="{name:'add_expense'}" class='btn btn-primary'>Add Expense</router-link>
                             </div>
                              <div class="input-group col-md-4">
                                     <input type="search" v-model='searchTerm' class="form-control rounded" placeholder="Search" aria-label="Search"
@@ -21,28 +21,20 @@
                                 <thead class="thead-dark">
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Name</th>
-                                        <th scope='col'>Photo</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Phone</th>
-                                        <th scope="col">Address</th>
-                                        <th scope='col'>Salary</th>
-                                        <th scope="col">Joining Date</th>
-                                        <th scope='col'>Actions</th>
+                                        <th scope="col">Expense Details</th>
+                                        <th scope='col'>Expense Amount</th>
+                                        <th scope="col">Expense Date</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(employee) in filterSearch" :key='employee.id'>
-                                        <td>{{(employee.id)}}</td>
-                                        <td>{{employee.name}}</td>
-                                        <td><img :src="employee.photo" alt="" id='imgId'></td>
-                                        <td>{{employee.email}}</td>
-                                        <td>{{employee.phone}}</td>
-                                        <td>{{employee.address}}</td>
-                                        <td>{{employee.sallery}}</td>
-                                        <td>{{employee.joining_date}}</td>
-                                        <td style='color:white'><router-link class='btn btn-md btn-primary' style='margin-right:5px' :to="{name:'edit_employee' , params:{ id: employee.id }}">Edit</router-link>
-                                        <a class='btn btn-md btn-danger' @click="deleteEmploye(employee.id)">Delete</a></td>
+                                    <tr v-for="(expense) in filterSearch" :key='expense.id'>
+                                        <td>{{(expense.id)}}</td>
+                                        <td>{{expense.details}}</td>
+                                        <td>{{expense.amount}} tk</td>
+                                        <td>{{expense.expense_date}}</td>
+                                        <td style='color:white'><router-link class='btn btn-md btn-primary' style='margin-right:5px' :to="{name:'edit_expense' , params:{ id: expense.id }}">Edit</router-link>
+                                        <a class='btn btn-md btn-danger' @click="deleteExpense(expense.id)">Delete</a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -55,25 +47,27 @@
 </template>
 <script>
 export default {
-    name:'all_employee',
+    name:'all_expense',
     created(){
         if(!User.hasLoggedIn()){
-            return this.$router.push({name:"/"});
+            return this.$router.push({name:'/'});
         }
     }
     ,
     data(){
         return {
-            employees:[],
+            expense:[],
             searchTerm: '',
         }
     },
     methods:{
-        allEmployee(){
-            axios.get('/api/employee').then(({data}) =>{ this.employees = data}).catch(err=> console.log(err.data));
+        allExpense(){
+            axios.get('/api/expense').then(({data}) =>{ this.expense = data}).catch(err=> console.log(err.data));
          },
-        deleteEmploye(id){
-            Swal.fire({
+     
+        deleteExpense(id){
+           
+             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't to delete!",
                 icon: 'warning',
@@ -85,15 +79,15 @@ export default {
                     
                 if (result.isConfirmed) {
                     console.log(id);
-                    axios.delete('/api/employee/'+id)
+                    axios.delete('/api/expense/'+id)
                         .then(
                            (res)=>{
-                                this.employees = this.employees.filter(employee=> {return employee.id !=id });
+                                this.expense = this.expense.filter(exp=> {return exp.id !=id });
                                 console.log(res.data);
                                
                            }  
                         )
-                         .catch(()=> this.$router.push({name:'all_employee'}));
+                         .catch(()=> this.$router.push({name:'all_expense'}));
 
 
                     Swal.fire(
@@ -103,18 +97,18 @@ export default {
                     );                    
                 }
             })
-        }   
+        }  
 
     },
     created(){
-       this.allEmployee();
+       this.allExpense();
      
     },
     computed:{
         filterSearch(){
-            return this.employees.filter(
-                (employee) =>{
-                        return employee.email.match(this.searchTerm);
+            return this.expense.filter(
+                (expense) =>{
+                        return expense.details.match(this.searchTerm);
                 }
             );
         }

@@ -47,7 +47,7 @@
                                             <small class="text text-danger" v-if='errors.joining_date'>{{errors.joining_date[0]}}</small>
                                             </div>
                                             <div class="form-group col-md-6">
-                                            <label for="inputEmail4">Sallery</label>
+                                            <label for="inputEmail4">Salary</label>
                                             <input type="text" class="form-control" id="inputEmail4" v-model='form.sallery'>
                                             <small class="text text-danger" v-if='errors.sallery'>{{errors.sallery[0]}}</small>
                                             </div>

@@ -125,9 +125,9 @@
                   </li>
                 </ul>
                 <br />
-                <form action="">
+                <form action="" @submit.prevent='orderDone'>
                   <label for="">Customer name</label>
-                  <select class="form-control" >
+                  <select class="form-control" v-model='choosenCustomer'>
                     <option
                       :value="customer.id"
                       v-for="customer in customers"
@@ -136,12 +136,13 @@
                       {{ customer.name }}
                     </option>
                   </select>
+                  
                   <label for="">Pay</label>
-                  <input type="text" class="form-control" id=""/>
+                  <input type="text" class="form-control" id="" v-model='pay'/>
                   <label for="">Due</label>
-                  <input type="text" class="form-control" id=""/>
+                  <input type="text" class="form-control" id="" v-model='due'/>
                   <label for="">Payment Method</label>
-                  <select class="form-control">
+                  <select class="form-control" v-model='payby'>
                     <option value="handCash">Hand Cash</option>
                     <option value="payPal">Paypal</option></select
                   ><br />
@@ -328,6 +329,13 @@ export default {
       customers: "",
       carts: [],
       vat: '',
+      choosenCustomer:'',
+      pay:'',
+      payby:'',
+      due:'',
+      quantity:'',
+      sub_total:'',
+      
     };
   },
   methods: {
@@ -366,19 +374,17 @@ export default {
       axios
         .get("/api/cart/" + id)
         .then(({ data }) => {
-       
+         
          console.log(data);
           Reload.$emit("AfterAdd");
-         
           
-        
         })
         .catch((err) => console.log(err.data));
     },
     showCartItem() {
       axios
         .get("/api/cart/")
-        .then(({ data }) => {this.carts = data;})
+        .then(({ data }) => {this.carts = data; console.log(this.carts)})
 
         .catch((err) => console.log(err.data));
     },
@@ -400,7 +406,9 @@ export default {
           Reload.$emit("AfterAdd");
           
         })
-        .catch();
+        .catch(err =>{
+          console.log(err.data.error);
+        });
     },
     decrement(id) {
       axios
@@ -416,8 +424,31 @@ export default {
           this.vat = data.vat;
         }).catch((err) => console.warn(err.data+" something went wrong!!"))
     },
-  
+   selectedCustomer(id){
+     let customers = Array.from(this.customers);
+     customers.map((customer)=>{
+       if(customer.id == id){
+         this.choosenCustomer = customer.name;
+       }
+       console.log(this.choosenCustomer);
+       
+     });
+    
+   },
+  orderDone(){
+       let total = this.subtotal * this.vat /100 + this.subtotal;
+       let data = {
+         customer_id:this.choosenCustomer,
+         quantity:this.qty,
+         pay:this.pay,
+         payby:this.payby,
+         due:this.due,
+         subtotal:this.sub_total,
+         total:total,
 
+       };
+        axios.post('/api/pos/',data).then(({data})=>{Notification.success();console.log(data)}).catch((err)=>{console.log(err.data.error)});
+     }
   },
 
   computed: {
@@ -433,9 +464,14 @@ export default {
     },
     qty(){
       let sum = 0;
-      for(let i = 0; i< this.carts.length; i++){
-        sum += parseInt(this.carts[i].product_quantity);
-      }
+      // for(let i = 0; i< this.carts.length; i++){
+      //   sum += parseInt(this.carts[i].product_quantity);
+      // }
+      this.carts.map((cart)=>{
+        sum+= parseInt(cart.product_quantity);
+        console.log('sum '+ sum);
+      })
+     this.quantity = sum;
       return sum;
     },
     subtotal(){
@@ -443,8 +479,10 @@ export default {
       for(let i =0;i < this.carts.length;i++){
         sum += parseInt(this.carts[i].sub_total);
       }
+     this.sub_total  = sum;
       return sum;
-    }
+    },
+   
     
   },
 };
