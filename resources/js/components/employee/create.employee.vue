@@ -102,9 +102,11 @@ export default {
         addEmployee(){
            axios.post('/api/employee',this.form).
 
-                then(()=>{
+                then((res)=>{
                     Notification.success();
-                    this.$router.push({name:'all_employee'});
+                    console.log(res.data);
+                    console.log(this.form);
+                     this.$router.push({name:'all_employee'});
                 }).
                     catch(error => {
                          this.errors = error.response.data.errors;

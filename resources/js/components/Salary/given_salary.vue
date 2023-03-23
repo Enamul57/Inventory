@@ -66,7 +66,7 @@ export default {
     methods:{
         allEmployee(){
            
-            axios.get('/api/empSalary/').then(({data}) =>{ this.employees = data}).catch(err=> console.log(err.data));
+            axios.get('/api/empSalary/').then(({data}) =>{ this.employees = data;console.log(this.employees);}).catch(err=> console.log(err.data));
          },
         deleteEmploye(id){
             Swal.fire({

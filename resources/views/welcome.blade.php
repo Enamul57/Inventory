@@ -15,7 +15,7 @@
         
     </head>
     <body class="sb-nav-fixed" >
-        <div id='app'>
+        <div id='app' >
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark"  id='nav_header' v-show=" $route.path ==='/' || $route.path ==='/register' ||$route.path ==='/forget' ? false  : true"  >
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="index.html">Your Company</a>
@@ -190,5 +190,7 @@
                document.getElementById('layoutSidenav_nav').style.display=''; 
                         }
         </script>
+       
+       
     </body>
 </html>

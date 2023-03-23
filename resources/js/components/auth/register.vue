@@ -74,6 +74,7 @@ export default {
         register(){
             axios.post('api/register',this.form)
             .then(response =>{ 
+                console.log(response.data);
                 User.responseAfterRegister(response);
                 Toast.fire({
                 icon: 'success',
@@ -81,7 +82,7 @@ export default {
                 })
                 this.$router.push({name:'home'});
                 
-                }).catch(error=> error);
+                }).catch(error=>{ error.response});
            console.log(this.errors);
       
         }

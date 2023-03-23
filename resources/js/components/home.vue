@@ -1,5 +1,4 @@
 <template>
-    <div id="home">
         <div class="container">
             <div class="row">
                 <div class="container-fluid px-4">
@@ -83,9 +82,17 @@
 <script>
 export default {
     name:'home',
+    data(){
+        return {
+            authenticate:false,
+        }
+    },
     created(){
         if(!User.hasLoggedIn()){
+            
             return this.$router.push({name:'login'});
+        }else{
+            this.authenticate = true;
         }
     }
 }
